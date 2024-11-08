@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Table</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<header>
+    <h1>Qiskit Fall Fest KU Score Board</h1>
+    <img src="{{ url_for('static', filename='tiger.png') }}" alt="Tiger"> 
+    <p>&nbsp;</p> 
+    <p class="welcome-message">Welcome to the Qiskit Fall Fest KU 2024!</p>
+    <p>&nbsp;</p> 
+    <p>Please find your ID and check your current rank. </p>
+    <p>You can also view your total score and individual scores for each problem.</p>
+    <p>Work hard to solve the problems and aim for the top spot! </p>
+    <p>Good luck!</p>
+</header>
+<body>
+    <div class="table-wrapper"> 
+        <table id="scoreTable" border="1">
+            <thead>
+                <tr>
+                    <th>Rank</th> <!-- Rank 열 추가 -->
+                    <th>User ID</th>
+                    <th>Total Score</th>
+                    <th>Lab1 #1</th>
+                    <th>Lab1 #2</th>
+                    <th>Lab1 #3</th>
+                    <th>Lab1 #4</th>
+
+                    <th>Lab2 #1</th>
+                    <th>Lab2 #2</th>
+                    <th>Lab2 #3</th>
+                    <th>Lab2 #4</th>
+
+                    <th>Lab3 #1</th>
+                    <th>Lab3 #2</th>
+                    <th>Lab3 #3</th>
+                    <th>Lab3 #4</th>
+
+                    <th>Lab4 #1</th>
+                    <th>Lab4 #2</th>
+                    <th>Lab4 #3</th>
+                    <th>Lab4 #4</th>
+                    <th>Lab4 #5</th>
+                    <th>Lab4 #6</th>
+                    <th>Lab4 #7</th>
+                    <th>Lab4 #8</th>
+
+                    <th>Lab5 #1</th>
+                    <th>Lab5 #2</th>
+                    <th>Lab5 #3</th>
+                    <th>Lab5 #4</th>
+
+                    <th>Lab6 #1</th>
+                    <th>Lab6 #2</th>
+                    <th>Lab6 #3</th>
+                    <th>Lab6 #4</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 데이터가 여기에 동적으로 추가됩니다. -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        async function fetchScores() {
+            const response = await fetch('/scores');
+            const data = await response.json();
+    
+            const tbody = document.querySelector('#scoreTable tbody');
+            tbody.innerHTML = ''; // Clear previous data
+    
+            data.forEach((row, index) => {
+                const tr = document.createElement('tr');
+                const rankCell = document.createElement('td');
+                rankCell.textContent = row.rank || index + 1;  // Assign rank
+    
+                const userIdCell = document.createElement('td');
+                const totalScoreCell = document.createElement('td');
+                userIdCell.textContent = row[0]; // User ID
+                totalScoreCell.textContent = row[1]; // Total score
+    
+                tr.appendChild(rankCell);
+                tr.appendChild(userIdCell);
+                tr.appendChild(totalScoreCell);
+    
+                // Loop through the individual scores (adjust the index to match problem scores)
+                for (let i = 2; i < row.length-1; i++) { // Starting from score1
+                    const scoreCell = document.createElement('td');
+                    scoreCell.textContent = row[i] || 0; // Handle missing scores as 0
+                    tr.appendChild(scoreCell);
+                }
+    
+                tbody.appendChild(tr);
+            });
+        }
+    
+        window.onload = () => {
+            fetchScores(); // Initial data load
+            setInterval(fetchScores, 5000); // Update every 5 seconds
+        };
+    </script>
+    
+</body>
+</html>
