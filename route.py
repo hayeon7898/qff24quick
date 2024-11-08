@@ -1,7 +1,8 @@
-from flask import Flask, render_template, jsonify
+# from flask import Flask
+from flask import render_template, jsonify
 import sqlite3
 
-app = Flask(__name__)
+# app = Flask(__name__)
 
 # 데이터베이스에서 데이터를 가져오는 함수
 def get_user_scores():
