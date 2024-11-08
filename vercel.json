@@ -7,7 +7,7 @@
       }
     ],
     "routes": [
-      { "src": "/(.*)", "dest": "route.py" }
+      { "src": "/(.*)", "dest": "/route.py" }
     ]
   }
   
