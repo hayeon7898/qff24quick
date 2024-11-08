@@ -1,8 +1,8 @@
 # from flask import Flask
-from flask import render_template, jsonify
+from flask import render_template, jsonify, Flask
 import sqlite3
 
-# app = Flask(__name__)
+app = Flask(__name__)
 
 # 데이터베이스에서 데이터를 가져오는 함수
 def get_user_scores():
@@ -44,5 +44,5 @@ def scores():
 
 
 # Flask 앱 실행
-# if __name__ == '__main__':
-#     app.run(host="0.0.0.0", port=80)
+if __name__ == '__main__':
+    app.run()
