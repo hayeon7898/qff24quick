@@ -1,16 +1,14 @@
-# from flask import Flask
-from flask import render_template, jsonify, Flask
+from flask import Flask, render_template, jsonify, request
 import sqlite3
+from database.add_score import add_score
+from database.parser import parse_question
 
-app = Flask(__name__)
 
 # 데이터베이스에서 데이터를 가져오는 함수
 def get_user_scores():
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
 
-    # 쿼리 작성: 유저별 점수와 순위를 가져오는 SQL 쿼리
-    # 반복적인 부분을 사용하지 않도록 동적으로 쿼리 생성
     score_columns = ", ".join([
         f"SUM(CASE WHEN s.sub_problem_id = {i} THEN s.score ELSE 0 END) AS score{i}"
         for i in range(1, 29)
@@ -31,18 +29,29 @@ def get_user_scores():
     conn.close()
     return user_scores
 
-# 메인 페이지 렌더링
-@app.route('/')
-def index():
-    return render_template('index.html')
+app = Flask(__name__)
+# Flask 경로
+@app.route("/")
+def home():
+    return render_template("index.html")
 
-# 점수 데이터 API
-@app.route('/scores')
+@app.route("/scores")
 def scores():
-    user_scores = get_user_scores()
-    return jsonify(user_scores)
+    return jsonify(get_user_scores())
+
+# FastAPI 경로
+@app.route('/endpoint', methods=['POST'])
+def receive_data():
+    data = request.json
+    username = data.get("username")
+    question = data.get("question")
+    grading_validation = data.get("grading_validation")
+    
+    type_id, problem_number = parse_question(question)
+    add_score(username, type_id, problem_number, grading_validation)
+
+    return jsonify({"message": f"Received data for {username}, {question} with validation: {grading_validation}"})
 
 
-# Flask 앱 실행
-if __name__ == '__main__':
-    app.run()
+if __name__ == "__main__":
+    app.run(debug=True)
