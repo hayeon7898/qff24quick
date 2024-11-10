@@ -1,0 +1,144 @@
+@font-face {
+  font-family: 'LOTTERIADDAG';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/LOTTERIADDAG.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  padding: 0 5vw;  /* 본문 좌우 여백 */
+}
+
+header {
+  padding: 7vh 0;
+  border-bottom: 1px solid #ddd;
+  text-align: center;  /* 중앙 정렬 */
+}
+
+header h1{
+  font-family: 'LOTTERIADDAG';
+  font-size: 2.5em;
+  /*font-weight: 700;*/
+}
+header p {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.welcome-message {
+  font-size: 1.5em; /* 조정할 크기 */
+  font-weight: bold; /* 필요하면 굵게 설정 */
+  text-align: center; /* 중앙 정렬 옵션 */
+}
+
+img {
+  display: block; /* 이미지를 블록 요소로 만듭니다. */
+  margin: 0 auto; /* 수평 중앙 정렬 */
+  max-width: 100%; /* 반응형 디자인을 위해 최대 너비를 100%로 설정합니다. */
+  height: auto; /* 비율을 유지하면서 높이를 자동으로 설정합니다. */
+}
+
+footer {
+  padding: 7vh 0;
+  border-top: 1px solid #ddd;
+  text-align: center;
+}
+
+aside {
+  padding: 7vh 5vw;
+}
+
+.primary {
+  overflow: hidden;  /* 전체 스크롤 방지 */
+  padding: 0;  /* primary 자체에 padding 제거 */
+}
+
+.table-wrapper {
+  max-height: 300px; /* 표의 최대 높이를 설정하여 스크롤이 필요한 경우 활성화 */
+  overflow-x: auto;  /* 가로 스크롤 활성화 */
+  overflow-y: scroll;  /* 세로 스크롤을 항상 활성화 */
+}
+
+
+@media (min-width: 40em) {
+  main {
+    display: flex;
+  }
+  aside {
+    flex: 0 1 20vw;
+    order: 1;
+    border-right: 1px solid #ddd;
+  }
+  .primary {
+    order: 2;
+  }
+}
+
+table {
+  border-collapse: collapse;
+  border: 0;
+  padding: 0px;
+  width: max-content; /* 테이블이 내용에 맞춰 너비를 조정 */
+}
+
+th, td {
+  border: none;
+  border-spacing: 0px;
+  padding: 0.6rem;
+  min-width: 6rem;
+  text-align: left;
+  background-clip: padding-box;
+  border-right: none;
+  border-left: none;
+}
+
+thead th {
+  position: static;
+  top: 0;
+  background-color: #9b0027;  /* 헤더 배경색 변경 (버건디 색) */
+  color: white;
+  z-index: 1000;
+  border-top: 0;
+  background-clip: padding-box;
+}
+
+tbody th {
+  background-color: #f8f8f8;
+  position: static;
+  left: 0;
+  z-index: 999;
+}
+
+tbody tr:last-child th,
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+tbody {
+  position: relative;
+  z-index: 10;
+}
+
+/* 전체 스크롤바 스타일 */
+::-webkit-scrollbar {
+  width: 12px; /* 세로 스크롤바의 너비 */
+  height: 12px; /* 가로 스크롤바의 높이 */
+}
+
+/* 스크롤바 배경 */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 스크롤바 배경색 */
+}
+
+/* 스크롤바 손잡이 */
+::-webkit-scrollbar-thumb {
+  background-color: #9b0027; /* 스크롤바 색상 (버건디 색) */
+  border-radius: 5px;
+}
+
+/* 스크롤바 손잡이를 hover했을 때 */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #7a001d; /* hover 시 색상 변경 */
+}
+

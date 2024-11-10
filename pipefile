@@ -1,0 +1,10 @@
+[[source]]
+url = "https://pypi.org/simple"    # 패키지를 설치할 기본 소스 URL
+verify_ssl = true                   # SSL 인증 확인
+name = "pypi"                       # 소스 이름
+
+[packages]
+flask = "*"                         # Flask 패키지 설치 (버전 상관없이 최신)
+
+[requires]
+python_version = "3.12"             # Python 버전을 3.12로 지정
