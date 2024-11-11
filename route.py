@@ -1,4 +1,5 @@
 from flask import Flask, render_template, jsonify, request
+from flask_cors import CORS
 import sqlite3
 from database.add_score import add_score
 from database.parser import parse_question
@@ -30,6 +31,8 @@ def get_user_scores():
     return user_scores
 
 app = Flask(__name__)
+CORS(app)
+
 # Flask 경로
 @app.route("/")
 def home():
