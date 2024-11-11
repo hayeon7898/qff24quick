@@ -51,7 +51,7 @@ def init_db():
         cursor.execute('INSERT OR IGNORE INTO labs (lab_type) VALUES (?);', (lab_type,))
 
     # 서브 문제 개수 설정: 각 랩에 해당하는 서브문제 수
-    sub_problem_counts = [4, 4, 4, 8, 4, 4]
+    sub_problem_counts = [4, 4, 6, 8, 4, 5]
 
     # 서브 문제를 할당하기 위한 문제 번호 추적
     problem_number = 1

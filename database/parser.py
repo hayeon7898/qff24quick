@@ -13,11 +13,11 @@ def parse_question(question: str) -> tuple:
     elif lab == 3:
         base_number = 9
     elif lab == 4:
-        base_number = 13
+        base_number = 15
     elif lab == 5:
-        base_number = 21
+        base_number = 23
     elif lab == 6:
-        base_number = 25
+        base_number = 27
     else:
         raise ValueError("Lab 번호는 1~6 사이여야 합니다.")
     
@@ -29,5 +29,5 @@ def parse_question(question: str) -> tuple:
     return type_id, problem_number
 
 # 테스트
-#print(parse_question("1a"))  # 출력: ('lab1', 1)
+#print(parse_question("3e"))  # 출력: ('lab1', 1)
 #print(parse_question("4f"))  # 출력: ('lab4', 14)

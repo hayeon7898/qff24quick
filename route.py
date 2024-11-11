@@ -11,7 +11,7 @@ def get_user_scores():
 
     score_columns = ", ".join([
         f"SUM(CASE WHEN s.sub_problem_id = {i} THEN s.score ELSE 0 END) AS score{i}"
-        for i in range(1, 29)
+        for i in range(1, 32)
     ])
     
     query = f"""
