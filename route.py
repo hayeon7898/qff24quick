@@ -3,7 +3,7 @@ from flask_cors import CORS
 import sqlite3
 import requests
 import os
-from database.init import init_db
+from database import init
 from database import add_user 
 from database.add_score import add_score
 from database.parser import parse_question
@@ -12,7 +12,7 @@ from database.parser import parse_question
 db_path = 'database.db'
 
 if not os.path.exists(db_path):
-    init_db()
+    init
     add_user
 
 
