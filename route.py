@@ -2,10 +2,18 @@ from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
 import sqlite3
 import requests
-import time
-import threading
+import os
+from database.init import init_db
+from database import add_user 
 from database.add_score import add_score
 from database.parser import parse_question
+
+
+db_path = 'database.db'
+
+if not os.path.exists(db_path):
+    init_db()
+    add_user
 
 
 # 데이터베이스에서 데이터를 가져오는 함수
