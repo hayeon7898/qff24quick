@@ -3,17 +3,11 @@ from flask_cors import CORS
 import sqlite3
 import requests
 import os
-from database import init
-from database import add_user 
+from database.init import init_db
+from database.add_user import add_user
 from database.add_score import add_score
 from database.parser import parse_question
 
-
-db_path = 'database.db'
-
-if not os.path.exists(db_path):
-    init
-    add_user
 
 
 # 데이터베이스에서 데이터를 가져오는 함수
@@ -43,6 +37,10 @@ def get_user_scores():
 
 app = Flask(__name__)
 CORS(app)
+
+init_db()
+add_user('quick123')
+add_user('ck789')
 
 # Flask 경로
 @app.route("/")
