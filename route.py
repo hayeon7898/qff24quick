@@ -45,7 +45,7 @@ def home():
 def scores():
     return jsonify(get_user_scores())
 
-# FastAPI 경로
+# 1번 시도
 #@app.route('/endpoint', methods=['POST'])
 #def receive_data():
 #    data = request.json
@@ -58,21 +58,49 @@ def scores():
 #
 #    return jsonify({"message": f"Received data for {username}, {question} with validation: {grading_validation}"})
 
-def fetch_data_periodically():
-    while True:
-        try:
-            response = requests.get("http://127.0.0.0:8000/get", timeout=20)
-            print("data:", response.json())
-        except Exception as e:
-            print("failed getting data:", e)
-        
-        time.sleep(10)  # 10초마다 요청
+# 2번 시도
+# def fetch_data_periodically():
+#     while True:
+#         try:
+#             response = requests.get("http://127.0.0.0:8000/get", timeout=20)
+#             print("data:", response.json())
+#         except Exception as e:
+#             print("failed getting data:", e)
+    
+#         time.sleep(10)  # 10초마다 요청
+# threading.Thread(target=fetch_data_periodically, daemon=True).start()
 
-threading.Thread(target=fetch_data_periodically, daemon=True).start()
+# @app.route('/receive', methods=['GET'])
+# def receive():
+#     return jsonify({"status": "success", "message": "getting datas."})
 
-@app.route('/receive', methods=['GET'])
-def receive():
-    return jsonify({"status": "success", "message": "getting datas."})
+@app.route('/receive-data', methods=['POST'])
+def receive_data():
+    try:
+        # FastAPI 서버로부터 데이터를 받음
+        data = request.get_json()
+
+        # 필요한 정보 추출
+        username = data['username']
+        question = data['question']
+        answer = data['answer']
+
+        # 데이터를 처리하고 응답 생성 (예: 데이터베이스에 저장, 로그 출력 등)
+        response = {
+            "message": "Data received successfully",
+            "received_data": {
+                "username": username,
+                "question": question,
+                "answer": answer
+            }
+        }
+
+        # 성공적으로 데이터를 받았다면 JSON으로 응답
+        return jsonify(response), 200
+
+    except Exception as e:
+        # 오류가 발생하면 오류 메시지와 함께 응답
+        return jsonify({"error": str(e)}), 400
 
 
 if __name__ == "__main__":
