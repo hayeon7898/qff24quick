@@ -1,6 +1,9 @@
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
 import sqlite3
+import requests
+import time
+import threading
 from database.add_score import add_score
 from database.parser import parse_question
 
@@ -43,17 +46,34 @@ def scores():
     return jsonify(get_user_scores())
 
 # FastAPI 경로
-@app.route('/endpoint', methods=['POST'])
-def receive_data():
-    data = request.json
-    username = data.get("username")
-    question = data.get("question")
-    grading_validation = data.get("grading_validation")
-    
-    type_id, problem_number = parse_question(question)
-    add_score(username, type_id, problem_number, grading_validation)
+#@app.route('/endpoint', methods=['POST'])
+#def receive_data():
+#    data = request.json
+#    username = data.get("username")
+#    question = data.get("question")
+#    grading_validation = data.get("grading_validation")
+#    
+#    type_id, problem_number = parse_question(question)
+#   add_score(username, type_id, problem_number, grading_validation)
+#
+#    return jsonify({"message": f"Received data for {username}, {question} with validation: {grading_validation}"})
 
-    return jsonify({"message": f"Received data for {username}, {question} with validation: {grading_validation}"})
+def fetch_data_periodically():
+    while True:
+        try:
+            response = requests.get("http://localhost:7000/get?")
+            print("data:", response.json())
+        except Exception as e:
+            print("failed getting data:", e)
+        
+        time.sleep(10)  # 10초마다 요청
+
+# 별도의 스레드에서 주기적으로 데이터 요청
+threading.Thread(target=fetch_data_periodically, daemon=True).start()
+
+@app.route('/receive', methods=['GET'])
+def work():
+    return jsonify({"status": "success", "message": "getting datas."})
 
 
 if __name__ == "__main__":
