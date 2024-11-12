@@ -68,12 +68,10 @@ def fetch_data_periodically():
         
         time.sleep(10)  # 10초마다 요청
 
-def start_periodic_fetch():
-    threading.Thread(target=fetch_data_periodically, daemon=True).start()
+threading.Thread(target=fetch_data_periodically, daemon=True).start()
 
 @app.route('/receive', methods=['GET'])
 def receive():
-    start_periodic_fetch()
     return jsonify({"status": "success", "message": "getting datas."})
 
 
