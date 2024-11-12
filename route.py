@@ -61,7 +61,7 @@ def scores():
 def fetch_data_periodically():
     while True:
         try:
-            response = requests.get("http://127.0.0.0:8000/get/", timeout=20)
+            response = requests.get("http://127.0.0.0:8000/get", timeout=20)
             print("data:", response.json())
         except Exception as e:
             print("failed getting data:", e)
