@@ -95,6 +95,9 @@ def receive_data():
             }
         }
 
+        type_id, problem_number = parse_question(question)
+        add_score(username, type_id, problem_number, answer)
+
         # 성공적으로 데이터를 받았다면 JSON으로 응답
         return jsonify(response), 200
 
