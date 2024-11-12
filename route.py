@@ -61,7 +61,7 @@ def scores():
 def fetch_data_periodically():
     while True:
         try:
-            response = requests.get(" http://127.0.0.1:8000/get")
+            response = requests.get("http://127.0.0.0:8000/get")
             print("data:", response.json())
         except Exception as e:
             print("failed getting data:", e)
@@ -69,10 +69,12 @@ def fetch_data_periodically():
         time.sleep(10)  # 10초마다 요청
 
 # 별도의 스레드에서 주기적으로 데이터 요청
-threading.Thread(target=fetch_data_periodically, daemon=True).start()
+#threading.Thread(target=fetch_data_periodically, daemon=True).start()
 
 @app.route('/receive', methods=['GET'])
 def work():
+    fetch_data_periodically()
+
     return jsonify({"status": "success", "message": "getting datas."})
 
 
