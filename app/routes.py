@@ -4,18 +4,33 @@ from app.add_score import add_score
 from app.parser import parse_question
 from sqlalchemy import func,case,bindparam,text
 from app import app,db
-from app.models import init_db
+from app.models import init_db, add_sub_problems
 from app.add_user import add_users
-from app.models import User, Score, SubProblem 
+from app.models import User, Score, SubProblem
+from app.models import Lab 
 from datetime import datetime
 import json
+
+# import click
 
 @app.cli.command("init-db")
 def init_db_command():
     """Initialize the database with initial data."""
-    add_users()
+    #add_users()
     init_db()
+    add_sub_problems()
     print("Database initialized successfully.")
+
+# @app.cli.command("check-lab")
+# def check_sub():
+#     # lab1에 해당하는 SubProblem들의 문제 번호 출력
+#     lab1 = Lab.query.filter_by(lab_type='lab1').first()  # lab1 가져오기
+#     if lab1:
+#         sub_problems = SubProblem.query.filter_by(lab_id=lab1.id).all()  # lab1의 모든 SubProblem 가져오기
+#         for sub_problem in sub_problems:
+#             click.echo(f"SubProblem ID: {sub_problem.id}, Problem Number: {sub_problem.problem_number}")
+#     else:
+#         click.echo("Lab1 not found")
 
 
 # # 데이터베이스에서 데이터를 가져오는 함수
