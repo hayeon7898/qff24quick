@@ -117,7 +117,8 @@ def receive_data():
     try:
         # FastAPI 서버로부터 데이터를 받음
         data = request.get_json()
-        app.logger.info("Received Data: %s", data, request)
+        app.logger.info("Received Data: %s", json.dumps(data, indent=4, ensure_ascii=False))
+        app.logger.info("Request Details: %s", request) 
 
         # 필요한 정보 추출
         username = data['username']
