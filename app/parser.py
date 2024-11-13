@@ -19,11 +19,15 @@ def parse_question(question: str) -> tuple:
         6: 27,
     }.get(lab, None)
 
+    base_num = lab_base_num.get(lab)
+    if base_num is None:
+        return None 
+
     # 세부 문제 문자 (a, b, c, d 등)
     part = question[1]
 
     # 문제 번호 계산 (a의 ASCII 코드 97 기준)
-    problem_number = lab_base_num[lab] + (ord(part) - ord('a'))
+    problem_number = base_num[lab] + (ord(part) - ord('a'))
 
     # 결과 반환
     return type_id, problem_number
@@ -36,4 +40,4 @@ def parse_question(question: str) -> tuple:
 # SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # db = SessionLocal()
 
-# print(parse_question("3e", db))  # 예시 출력: ('lab3', 28)
+print(parse_question("3e"))  # 예시 출력: ('lab3', 28)
