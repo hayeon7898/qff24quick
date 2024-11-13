@@ -30,9 +30,14 @@ class Score(db.Model):
     is_correct = db.Column(db.Boolean, default=False)
     updated_at = db.Column(db.String, nullable=False)
 
+
 # 초기화 함수
 def init_db():
     with app.app_context():
+        if Lab.query.first() is not None:
+            print("Database is already initialized.")
+            return  # 이미 초기화된 경우 함수 종료
+
         db.create_all()  # 모든 테이블 생성
 
         # 초기 데이터 추가
@@ -40,13 +45,13 @@ def init_db():
         for lab_type in lab_types:
             lab = Lab(lab_type=lab_type)
             db.session.add(lab)
-        db.session.commit()  # labs 테이블에 추가된 데이터 저장
+        db.session.commit()
 
         # 각 랩에 대한 서브 문제 추가
         sub_problem_counts = [4, 4, 6, 8, 4, 5]
-        problem_number = 1
-
         labs = Lab.query.all()  # 모든 랩 데이터 가져오기
+
+        problem_number = 1  # 문제 번호 초기화
         for index, lab in enumerate(labs):
             for _ in range(sub_problem_counts[index]):
                 sub_problem = SubProblem(lab_id=lab.id, problem_number=problem_number)
@@ -57,6 +62,6 @@ def init_db():
                 score_entry = Score(user_id=None, sub_problem_id=sub_problem.id, score=0, is_correct=False, updated_at=current_time)
                 db.session.add(score_entry)
 
-                problem_number += 1
+                problem_number += 1  # 문제 번호 증가
         db.session.commit()  # 모든 초기 데이터 저장
-
+        print("Database initialized successfully.")

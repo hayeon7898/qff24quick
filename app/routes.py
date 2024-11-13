@@ -5,6 +5,7 @@ from app.parser import parse_question
 from sqlalchemy import func,case,bindparam,text
 from app import app,db
 from app.models import init_db
+from app.add_user import add_users
 from app.models import User, Score, SubProblem 
 from datetime import datetime
 import json
@@ -12,6 +13,7 @@ import json
 @app.cli.command("init-db")
 def init_db_command():
     """Initialize the database with initial data."""
+    add_users()
     init_db()
     print("Database initialized successfully.")
 
