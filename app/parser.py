@@ -40,4 +40,4 @@ def parse_question(question: str) -> tuple:
 # SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # db = SessionLocal()
 
-print(parse_question("3e"))  # 예시 출력: ('lab3', 28)
+#print(parse_question("3e"))  # 예시 출력: ('lab3', 28)
