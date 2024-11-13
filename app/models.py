@@ -1,5 +1,5 @@
 from datetime import datetime
-from app import db
+from app import app,db
 
 # 테이블 정의
 class Lab(db.Model):
