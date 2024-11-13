@@ -117,13 +117,19 @@ def receive_data():
     try:
         # FastAPI 서버로부터 데이터를 받음
         data = request.get_json()
-        app.logger.info("Received Data: %s", json.dumps(data, indent=4, ensure_ascii=False))
-        app.logger.info("Request Details: %s", request) 
+        if data is None:
+            raise ValueError("No JSON data received")
+        
+        # 로그 출력
+        app.logger.info("Received Data: %s", json.dumps(data, ensure_ascii=False))
 
         # 필요한 정보 추출
-        username = data['username']
-        question = data['question']
-        answer = data['answer']
+        # username = data['username']
+        # question = data['question']
+        # answer = data['answer']
+        username = data.get('username')
+        question = data.get('question')
+        answer = data.get('answer')
 
         # 데이터를 처리하고 응답 생성 (예: 데이터베이스에 저장, 로그 출력 등)
         response = {
