@@ -1,12 +1,11 @@
 from flask import render_template, jsonify, request
 import requests
-from app.database.add_score import add_score
-from app.database.parser import parse_question
+from app.add_score import add_score
+from app.parser import parse_question
 from sqlalchemy import func,case,bindparam,text
 from app import app,db
 from app.models import User, Score, SubProblem 
 from datetime import datetime
-from app.database.add_user import add_users
 import json
 
 
@@ -142,6 +141,7 @@ def receive_data():
         }
 
         type_id, problem_number = parse_question(question, db)
+        app.logger.info("type id &prob num:", type_id, problem_number)
         add_score(username, type_id, problem_number, answer)
 
         # 성공적으로 데이터를 받았다면 JSON으로 응답
