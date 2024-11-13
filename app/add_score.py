@@ -65,7 +65,7 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
         solved_problems = Score.query.filter(
             Score.user_id == user.id,
             Score.sub_problem_id.in_(db.session.query(SubProblem.id).filter_by(lab_id=lab.id)),
-            Score.is_correct == 1
+            Score.is_correct == True  # True로 변경
         ).count()
 
         # Lab4에서 추가 점수 로직 수정 (Lab4만 다르게 처리)
@@ -76,13 +76,13 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
             group1_solved = Score.query.filter(
                 Score.user_id == user.id,
                 Score.sub_problem_id.in_(db.session.query(SubProblem.id).filter_by(lab_id=lab.id, problem_number=group1)),
-                Score.is_correct == 1
+                Score.is_correct == True  # True로 변경
             ).count()
 
             group2_solved = Score.query.filter(
                 Score.user_id == user.id,
                 Score.sub_problem_id.in_(db.session.query(SubProblem.id).filter_by(lab_id=lab.id, problem_number=group2)),
-                Score.is_correct == 1
+                Score.is_correct == True  # True로 변경
             ).count()
 
             if group1_solved == 4:
@@ -108,3 +108,4 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
     finally:
         # No need to manually close the connection with SQLAlchemy; it's handled by the session.
         pass
+
