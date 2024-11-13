@@ -96,6 +96,7 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
             user.total_score += 20
 
         # Commit the changes to the database
+        db.session.add(user)
         db.session.commit()
 
     except ValueError as ve:
