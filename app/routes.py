@@ -114,10 +114,10 @@ def scores():
 
 @app.route('/receive-data', methods=['POST'])
 def receive_data():
-    app.logger.info("Received Data: %s", data)
     try:
         # FastAPI 서버로부터 데이터를 받음
         data = request.get_json()
+        app.logger.info("Received Data: %s", data, request)
 
         # 필요한 정보 추출
         username = data['username']
