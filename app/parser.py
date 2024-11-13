@@ -10,18 +10,12 @@ def parse_question(question: str) -> tuple:
         return None  # lab이 범위를 벗어나면 None 반환
 
     # 각 lab 번호에 따른 기본 문제 번호
-    lab_base_num = {
-        1: 1,  # 예시로 lab1의 시작 번호를 10으로 설정
-        2: 5,
-        3: 9,
-        4: 15,
-        5: 23,
-        6: 27,
-    }.get(lab, None)
-
-    base_num = lab_base_num.get(lab)
-    if base_num is None:
-        return None 
+    if(lab==1): base_num=1
+    elif(lab==2): base_num=5
+    elif(lab==3): base_num=9
+    elif(lab==4): base_num=15
+    elif(lab==5): base_num=23
+    else: base_num=27
 
     # 세부 문제 문자 (a, b, c, d 등)
     part = question[1]
