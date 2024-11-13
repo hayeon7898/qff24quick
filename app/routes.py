@@ -4,10 +4,16 @@ from app.add_score import add_score
 from app.parser import parse_question
 from sqlalchemy import func,case,bindparam,text
 from app import app,db
+from app.models import init_db
 from app.models import User, Score, SubProblem 
 from datetime import datetime
 import json
 
+@app.cli.command("init-db")
+def init_db_command():
+    """Initialize the database with initial data."""
+    init_db()
+    print("Database initialized successfully.")
 
 
 # # 데이터베이스에서 데이터를 가져오는 함수
