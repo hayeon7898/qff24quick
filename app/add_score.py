@@ -31,6 +31,7 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
 
             # 정답 여부가 변동된 경우 새로운 점수 계산
             new_score = sub_problem.max_score if is_correct else 0
+            score_diff = new_score - existing_score.score
 
             # 점수와 업데이트 시각 변경
             existing_score.score = new_score
@@ -38,7 +39,7 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
             existing_score.updated_at = datetime.now()
 
             # 총점 조정 
-            user.total_score += new_score
+            user.total_score += score_diff
             user.final_updated_at = datetime.now()
             print(f"Score updated: User {username} (ID: {user.id}), New Score {new_score}")
 
