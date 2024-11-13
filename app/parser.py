@@ -27,7 +27,7 @@ def parse_question(question: str) -> tuple:
     part = question[1]
 
     # 문제 번호 계산 (a의 ASCII 코드 97 기준)
-    problem_number = base_num[lab] + (ord(part) - ord('a'))
+    problem_number = base_num + (ord(part) - ord('a'))
 
     # 결과 반환
     return type_id, problem_number
