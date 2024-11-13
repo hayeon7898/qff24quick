@@ -56,6 +56,7 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
 
             # 총점 추가
             user.total_score += new_score
+            db.session.add(user)
             print(f"Score added: User {username} (ID: {user.id}), Score {new_score}")
 
         # 해당 유저가 모든 하위 문제를 풀었는지 확인
