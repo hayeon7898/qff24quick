@@ -1,3 +1,7 @@
 Flask
 flask-cors
+flask_migrate
+flask-SQLAlchemy
 requests
+psycopg2-binary
+
