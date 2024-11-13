@@ -67,7 +67,7 @@ def get_user_scores():
     query = f"""
         SELECT u.username, u.total_score,
                {score_columns},
-               RANK() OVER (ORDER BY u.total_score DESC, u.final_updated_at DESC) AS rank
+               RANK() OVER (ORDER BY u.total_score DESC, u.final_updated_at ASC) AS rank
         FROM users u
         LEFT JOIN scores s ON u.id = s.user_id
         GROUP BY u.id
