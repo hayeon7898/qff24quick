@@ -60,18 +60,29 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
             db.session.add(user)
             print(f"Score added: User {username} (ID: {user.id}), Score {new_score}")
 
-        # 해당 유저가 모든 하위 문제를 풀었는지 확인
-        total_problems = SubProblem.query.filter_by(lab_id=lab.id).count()
+        total_problems = [4,4,6,8,4,5]
+        if(type_id == 'lab1'):
+            total_problems_num = total_problems[4]
+            sub_problem_ids = [1,2,3,4]
+            solved_problems = Score.query.filter(
+                Score.user_id == user.id,
+                Score.sub_problem_id.in_(sub_problem_ids),  # lab_id에 해당하는 문제 ID 목록
+                Score.is_correct == True  # 정답 여부가 True인 것만 필터링
+            ).count()
+            
 
-        # 특정 lab_id에 해당하는 sub_problem ID 목록을 구함
-        sub_problem_names = [sub.id for sub in db.session.query(SubProblem.id).filter_by(lab_id=lab.id).all()]
+        # # 해당 유저가 모든 하위 문제를 풀었는지 확인
+        # total_problems = SubProblem.query.filter_by(lab_id=lab.id).count()
 
-        # 위에서 구한 sub_problem_ids 목록을 사용해 Score 테이블 필터링
-        solved_problems = Score.query.filter(
-            Score.user_id == user.id,
-            Score.sub_problem_id.in_(sub_problem_names),  # lab_id에 해당하는 문제 ID 목록
-            Score.is_correct == True  # 정답 여부가 True인 것만 필터링
-        ).count()
+        # # 특정 lab_id에 해당하는 sub_problem ID 목록을 구함
+        # sub_problem_names = [sub.id for sub in db.session.query(SubProblem.id).filter_by(lab_id=lab.id).all()]
+
+        # # 위에서 구한 sub_problem_ids 목록을 사용해 Score 테이블 필터링
+        # solved_problems = Score.query.filter(
+        #     Score.user_id == user.id,
+        #     Score.sub_problem_id.in_(sub_problem_names),  # lab_id에 해당하는 문제 ID 목록
+        #     Score.is_correct == True  # 정답 여부가 True인 것만 필터링
+        # ).count()
 
         # solved_problems = Score.query.filter(
         #     Score.user_id == user.id,
@@ -104,8 +115,8 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
                 print("Lab4 Group 2 (17-20) solved! Adding bonus score of 20.")
                 user.total_score += 20
                 db.session.add(user)
-                
-        elif solved_problems == total_problems:
+
+        elif solved_problems == total_problems_num:
             print("All sub-problems solved! Adding bonus score of 20.")
             user.total_score += 20
             db.session.add(user)
