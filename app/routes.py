@@ -163,6 +163,10 @@ def receive_data():
             }
         }
 
+        if(answer == False):
+            app.logger("wrong answer, so not adding in db")
+            return jsonify(response), 200
+
         type_id, problem_number = parse_question(question)
         app.logger.info(f"type_id: {type_id}, problem_number: {problem_number}")
 
