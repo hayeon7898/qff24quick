@@ -31,7 +31,7 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
 
             # 정답 여부가 변동된 경우 새로운 점수 계산
             new_score = sub_problem.max_score if is_correct else 0
-            score_diff = new_score - existing_score.score
+            # score_diff = new_score - existing_score.score
 
             # 점수와 업데이트 시각 변경
             existing_score.score = new_score
@@ -39,7 +39,7 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
             existing_score.updated_at = datetime.now()
 
             # 총점 조정 
-            user.total_score += score_diff
+            user.total_score += new_score
             user.final_updated_at = datetime.now()
             print(f"Score updated: User {username} (ID: {user.id}), New Score {new_score}")
 
@@ -63,11 +63,22 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
         # 해당 유저가 모든 하위 문제를 풀었는지 확인
         total_problems = SubProblem.query.filter_by(lab_id=lab.id).count()
 
+        # 특정 lab_id에 해당하는 sub_problem ID 목록을 구함
+        sub_problem_ids = db.session.query(SubProblem.id).filter_by(lab_id=lab.id).all()
+        sub_problem_ids = [sub.id for sub in sub_problem_ids]  # ID 값만 추출하여 리스트로 만듦
+
+        # 위에서 구한 sub_problem_ids 목록을 사용해 Score 테이블 필터링
         solved_problems = Score.query.filter(
             Score.user_id == user.id,
-            Score.sub_problem_id.in_(db.session.query(SubProblem.id).filter_by(lab_id=lab.id)),
-            Score.is_correct == True  # True로 변경
+            Score.sub_problem_id.in_(sub_problem_ids),  # lab_id에 해당하는 문제 ID 목록
+            Score.is_correct == True  # 정답 여부가 True인 것만 필터링
         ).count()
+
+        # solved_problems = Score.query.filter(
+        #     Score.user_id == user.id,
+        #     Score.sub_problem_id.in_(db.session.query(SubProblem.id).filter_by(lab_id=lab.id)),
+        #     Score.is_correct == True  # True로 변경
+        # ).count()
 
         # Lab4에서 추가 점수 로직 수정 (Lab4만 다르게 처리)
         if type_id == 'lab4':
@@ -76,13 +87,13 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
 
             group1_solved = Score.query.filter(
                 Score.user_id == user.id,
-                Score.sub_problem_id.in_(db.session.query(SubProblem.id).filter_by(lab_id=lab.id, problem_number=group1)),
+                Score.sub_problem_id.in_(group1),
                 Score.is_correct == True  # True로 변경
             ).count()
 
             group2_solved = Score.query.filter(
                 Score.user_id == user.id,
-                Score.sub_problem_id.in_(db.session.query(SubProblem.id).filter_by(lab_id=lab.id, problem_number=group2)),
+                Score.sub_problem_id.in_(group2),
                 Score.is_correct == True  # True로 변경
             ).count()
 
