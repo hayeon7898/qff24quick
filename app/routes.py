@@ -16,10 +16,10 @@ import json
 @app.cli.command("init-db")
 def init_db_command():
     """Initialize the database with initial data."""
-    # with app.app_context():
-    #     # 모든 테이블 삭제
-    #     db.drop_all()
-    #     db.create_all()
+    with app.app_context():
+        # 모든 테이블 삭제
+        db.drop_all()
+        db.create_all()
 
     # 여기서 초기 데이터를 추가할 수 있습니다.
     print("Database has been reset.")
