@@ -40,7 +40,7 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
 
             # 총점 조정 
             user.total_score += new_score
-            user.final_updated_at = datetime.now()
+            user.final_updated_at = datetime.now().isoformat()
             print(f"Score updated: User {username} (ID: {user.id}), New Score {new_score}")
 
         else:
@@ -51,13 +51,18 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
                 sub_problem_id=sub_problem.id,
                 score=new_score,
                 is_correct=is_correct,
-                updated_at=datetime.now()
+                updated_at=datetime.now().isoformat()
             )
             db.session.add(new_score_entry)
 
+            new_score += user.total_score
+
             # 총점 추가
-            user.total_score += new_score
-            db.session.add(user)
+            new_user = User(
+                total_score = new_score
+                final_updated_at = datetime.now().isoformat()
+            )
+            db.session.add(new_user)
             print(f"Score added: User {username} (ID: {user.id}), Score {new_score}")
 
         total_problems = [4,4,6,8,4,5]
