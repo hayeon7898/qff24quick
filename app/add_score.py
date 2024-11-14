@@ -80,7 +80,7 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
             ).count()
         elif(type_id == 'lab3'):
             total_problems_num = total_problems[2]
-            sub_problem_ids = [9,10,11,12,13]
+            sub_problem_ids = [9,10,11,12,13,14]
             solved_problems = Score.query.filter(
                 Score.user_id == user.id,
                 Score.sub_problem_id.in_(sub_problem_ids),  # lab_id에 해당하는 문제 ID 목록
@@ -88,7 +88,7 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
             ).count()
         elif(type_id == 'lab5'):
             total_problems_num = total_problems[4]
-            sub_problem_ids = [22,23,24,25]
+            sub_problem_ids = [23,24,25,26]
             solved_problems = Score.query.filter(
                 Score.user_id == user.id,
                 Score.sub_problem_id.in_(sub_problem_ids),  # lab_id에 해당하는 문제 ID 목록
@@ -96,7 +96,7 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
             ).count()
         elif(type_id == 'lab6'):
             total_problems_num = total_problems[5]
-            sub_problem_ids = [26,27,28,29,30,31]
+            sub_problem_ids = [27,28,29,30,31]
             solved_problems = Score.query.filter(
                 Score.user_id == user.id,
                 Score.sub_problem_id.in_(sub_problem_ids),  # lab_id에 해당하는 문제 ID 목록
@@ -125,8 +125,8 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
 
         # Lab4에서 추가 점수 로직 수정 (Lab4만 다르게 처리)
         if type_id == 'lab4':
-            group1 = [14,15,16,17]
-            group2 = [18,19,20,21]
+            group1 = [15,16,17,18]
+            group2 = [19,20,21,22]
 
             group1_solved = Score.query.filter(
                 Score.user_id == user.id,
