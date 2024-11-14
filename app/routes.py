@@ -25,7 +25,7 @@ def init_db_command():
     print("Database has been reset.")
     add_users()
     init_db()
-    # add_sub_problems()
+    add_sub_problems()
     print("Database initialized successfully.")
 
 # @app.cli.command("check-lab")
