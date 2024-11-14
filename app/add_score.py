@@ -64,13 +64,12 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
         total_problems = SubProblem.query.filter_by(lab_id=lab.id).count()
 
         # 특정 lab_id에 해당하는 sub_problem ID 목록을 구함
-        sub_problem_ids = db.session.query(SubProblem.id).filter_by(lab_id=lab.id).all()
-        sub_problem_ids = [sub.id for sub in sub_problem_ids]  # ID 값만 추출하여 리스트로 만듦
+        sub_problem_names = [sub.id for sub in db.session.query(SubProblem.id).filter_by(lab_id=lab.id).all()]
 
         # 위에서 구한 sub_problem_ids 목록을 사용해 Score 테이블 필터링
         solved_problems = Score.query.filter(
             Score.user_id == user.id,
-            Score.sub_problem_id.in_(sub_problem_ids),  # lab_id에 해당하는 문제 ID 목록
+            Score.sub_problem_id.in_(sub_problem_names),  # lab_id에 해당하는 문제 ID 목록
             Score.is_correct == True  # 정답 여부가 True인 것만 필터링
         ).count()
 
@@ -100,16 +99,18 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
             if group1_solved == 4:
                 print("Lab4 Group 1 (13-16) solved! Adding bonus score of 20.")
                 user.total_score += 20
+                db.session.add(user)
             if group2_solved == 4:
                 print("Lab4 Group 2 (17-20) solved! Adding bonus score of 20.")
                 user.total_score += 20
-
+                db.session.add(user)
+                
         elif solved_problems == total_problems:
             print("All sub-problems solved! Adding bonus score of 20.")
             user.total_score += 20
+            db.session.add(user)
 
         # Commit the changes to the database
-        db.session.add(user)
         db.session.commit()
 
     except ValueError as ve:
