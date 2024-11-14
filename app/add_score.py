@@ -55,14 +55,10 @@ def add_score(username: str, type_id: str, problem_number: int, is_correct: bool
             )
             db.session.add(new_score_entry)
 
-            new_score += user.total_score
-
             # 총점 추가
-            new_user = User(
-                total_score = new_score
-                final_updated_at = datetime.now().isoformat()
-            )
-            db.session.add(new_user)
+            user.total_score += new_score
+            user.final_updated_at = datetime.now().isoformat()
+            db.session.add(user)
             print(f"Score added: User {username} (ID: {user.id}), Score {new_score}")
 
         total_problems = [4,4,6,8,4,5]
